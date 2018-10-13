@@ -4,15 +4,36 @@
 // });
 
 // listen for form submit POST
-// $("form").submit(function(e) {
-// 	e.preventDefault();
-// 	// converte the data to string
-// 	const formData = $(this).serialize();
-// 	// send post to same domain post route
-// 	$.post("/todos", formData, function(res) {
-// 		console.log("The data we got back:", res);
-// 	});
-// });
+$("#new-todo-form").submit(function(e) {
+	e.preventDefault();
+	// converte the data to string
+	const todoItem = $(this).serialize();
+	console.log(todoItem);
+	// send post to same domain post route
+	$.post("/todos", todoItem, function(todo) {
+		console.log("The data we got back:", todo);
+		// update the todos ul
+		$("#todo-list").append(
+			`<li class="list-group-item">
+				<span class="lead">
+					${todo.text}
+				</span>
+				<div class="pull-right">
+					<a href="/todos/${todo._id}/edit" class="btn btn-sm btn-warning">Edit</a>
+					<form style="display: inline" method="POST" action="/todos/${todo._id}">
+						<button type="submit" class="btn btn-sm btn-danger">Delete</button>
+					</form>
+				</div>
+				<div class="clearfix"></div>
+			</li>`
+		);
+
+		// delete input text
+		$("#new-todo-form")
+			.find(".form-control")
+			.val("");
+	});
+});
 
 // // listen for form submit PUT
 // $("form").submit(function(e) {
@@ -30,14 +51,14 @@
 // });
 
 // listen for form submit DELETE
-$("form").submit(function(e) {
-	e.preventDefault();
-	const formAction = $(this).attr("action");
-	$.ajax({
-		url: formAction,
-		type: "DELETE",
-		success: function(data) {
-			debugger;
-		}
-	});
-});
+// $("form").submit(function(e) {
+// 	e.preventDefault();
+// 	const formAction = $(this).attr("action");
+// 	$.ajax({
+// 		url: formAction,
+// 		type: "DELETE",
+// 		success: function(data) {
+// 			debugger;
+// 		}
+// 	});
+// });

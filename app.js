@@ -45,17 +45,15 @@ app.get("/todos/new", function(req, res) {
 });
 
 app.post("/todos", function(req, res) {
+	console.log("befor sanitize:", req.body);
 	req.body.todo.text = req.sanitize(req.body.todo.text);
+	console.log("after sanitize:", req.body);
 	var formData = req.body.todo;
 	Todo.create(formData, function(err, newTodo) {
 		if (err) {
 			res.render("new");
 		} else {
-			if (req.xhr) {
-				res.json(newTodo);
-			} else {
-				res.redirect("/todos");
-			}
+			res.json(newTodo);
 		}
 	});
 });

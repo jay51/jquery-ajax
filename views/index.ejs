@@ -2,8 +2,21 @@
 
 <div class="row">
 	<div class="col-md-6 col-md-offset-3">
+		<!-- NEW TODO FORM -->
+		<h1>New Item</h1>
+		<form id="new-todo-form" action="/todos" method="POST">
+			<div class="form-group">
+				<label>Item Text</label>
+				<input type="text" name="todo[text]" class="form-control">
+			</div>
+			<button class="btn btn-primary">Create Item</button>
+		</form>
+
+
+
+		<!-- SHOW TODOS -->
 		<h1>To Do Items</h1>
-		<ul class="list-group">
+		<ul class="list-group" id="todo-list">
 			<% todos.forEach(function(todo){ %>
 			<li class="list-group-item">
 				<span class="lead">
@@ -19,7 +32,6 @@
 			</li>
 			<% }); %>
 		</ul>
-		<a href="/todos/new" class="btn btn-primary">New Item</a>
 	</div>
 </div>
 
