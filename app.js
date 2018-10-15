@@ -21,8 +21,11 @@ var todoSchema = new mongoose.Schema({
 
 var Todo = mongoose.model("Todo", todoSchema);
 
+// this will remove all todos befor redirecting
 app.get("/", function(req, res) {
-	res.redirect("/todos");
+	Todo.remove({}, function() {
+		res.redirect("/todos");
+	});
 });
 
 app.get("/todos", function(req, res) {
@@ -70,15 +73,14 @@ app.get("/todos/:id/edit", function(req, res) {
 });
 
 app.put("/todos/:id", function(req, res) {
-	Todo.findByIdAndUpdate(req.params.id, req.body.todo, function(err, todo) {
+	Todo.findByIdAndUpdate(req.params.id, req.body.todo, { new: true }, function(
+		err,
+		todo
+	) {
 		if (err) {
 			console.log(err);
 		} else {
-			if (req.xhr) {
-				res.json(todo);
-			} else {
-				res.redirect("/");
-			}
+			res.json(todo);
 		}
 	});
 });
@@ -88,11 +90,7 @@ app.delete("/todos/:id", function(req, res) {
 		if (err) {
 			console.log(err);
 		} else {
-			if (req.xhr) {
-				res.json(todo);
-			} else {
-				res.redirect("/todos");
-			}
+			res.json(todo);
 		}
 	});
 });
